@@ -18,7 +18,7 @@ def removes_url(text):
 
 #removes stop-words
 def remove_stopwords(text):
-    StopWords = stopwords.words("english")
+    StopWords = stopwords.words("english") + ['tech', 'Want', 'take', 'work', 'way', 'employee', 'Read', 'share', 'Watch', 'de', 'need', 'Want', 'company', 'companies','day', 'experience', 'today', 'Find', 'Check', 'SAPPHIRENOW', 'top', 'Video', 'year', 'Take look', 'learn', 'know', 'video', 'today', 'see', 'join', 'time', 'via', 'need', 'Check', 'know', 'Blog', 'live', 'use', 'Take', 'new', 'best', 'great', 'good', 'one', 'SAP', 'See', 'help', 'business', 'check', 'Video', 'Learn', 'Business', 'technology', 'way', 'make']
     final = ' '.join([word for word in text.split() if word not in StopWords])
     return final.strip(' ')
 
@@ -61,10 +61,11 @@ def generateWordcloud(cleanedTweets):
     import numpy as np
     sap_mask = np.array(Image.open("SAP.jpg"))
     stopwords = set(STOPWORDS)
+    stopwords.add("SAP")
 
     wc = WordCloud(font_path = 'CabinSketch-Bold.ttf',
                    background_color="white",
-                   max_words=200,
+                   max_words=30,
                    width=600, height=300,
                    stopwords=stopwords).generate(no_urls_no_tags)
 
@@ -85,10 +86,19 @@ if __name__ == '__main__':
     colnames = ['favorites', 'created_at', 'retweets', 'text']
 
     df = pd.read_csv('sap1.csv', usecols=colnames)
-    df.describe()
+    #df.describe()
 
     tweet = df
     cleaned_tweets = []
+    cleaned_tweets_2009 = []
+    cleaned_tweets_2010 = []
+    cleaned_tweets_2011 = []
+    cleaned_tweets_2012 = []
+    cleaned_tweets_2013 = []
+    cleaned_tweets_2014 = []
+    cleaned_tweets_2015 = []
+    cleaned_tweets_2016 = []
+    cleaned_tweets_2017 = []
     for index, tw in tweet.iterrows():
         tweetText = tw['text']
         twNourl = removes_url(tweetText)
@@ -97,8 +107,43 @@ if __name__ == '__main__':
         tweetTime = timeConversion(tw)
         tw['text'] = twRmhashtag
         tw['created_at'] = tweetTime
+        year = tw['created_at'][:4]
         cleaned_tweets.append(tw)
-        cleaned_tweets = pd.DataFrame(cleaned_tweets)
+        if year == '2009':
+            cleaned_tweets_2009.append(tw)
+        elif year == '2010':
+            cleaned_tweets_2010.append(tw)
+        elif year == '2011':
+            cleaned_tweets_2011.append(tw)
+        elif year == '2012':
+            cleaned_tweets_2012.append(tw)
+        elif year == '2013':
+            cleaned_tweets_2013.append(tw)
+        elif year == '2014':
+            cleaned_tweets_2014.append(tw)
+        elif year == '2015':
+            cleaned_tweets_2015.append(tw)
+        elif year == '2016':
+            cleaned_tweets_2016.append(tw)
+        elif year == '2017':
+            cleaned_tweets_2017.append(tw)
+    cleaned_tweets = pd.DataFrame(cleaned_tweets)
+    cleaned_tweets_2009 = pd.DataFrame(cleaned_tweets_2009)
+    cleaned_tweets_2010 = pd.DataFrame(cleaned_tweets_2010)
+    cleaned_tweets_2011 = pd.DataFrame(cleaned_tweets_2011)
+    cleaned_tweets_2012 = pd.DataFrame(cleaned_tweets_2012)
+    cleaned_tweets_2013 = pd.DataFrame(cleaned_tweets_2013)
+    cleaned_tweets_2014 = pd.DataFrame(cleaned_tweets_2014)
+    cleaned_tweets_2015 = pd.DataFrame(cleaned_tweets_2015)
+    cleaned_tweets_2016 = pd.DataFrame(cleaned_tweets_2016)
+    cleaned_tweets_2017 = pd.DataFrame(cleaned_tweets_2017)
     generateWordcloud(cleaned_tweets)
-
-        best, great, good, one, SAP, See, help, new
+    generateWordcloud(cleaned_tweets_2009)
+    generateWordcloud(cleaned_tweets_2010)
+    generateWordcloud(cleaned_tweets_2011)
+    generateWordcloud(cleaned_tweets_2012)
+    generateWordcloud(cleaned_tweets_2013)
+    generateWordcloud(cleaned_tweets_2014)
+    generateWordcloud(cleaned_tweets_2015)
+    generateWordcloud(cleaned_tweets_2016)
+    generateWordcloud(cleaned_tweets_2017)
