@@ -8,15 +8,15 @@ Tweets were obtained from the following sources:
 - Specific business news agency handles such as Bloomberg and Forbes
 
 The data is pre-process using the following methodologies:
-      1. Stopword Removal 
-      2. Hashtag Removal
-      3. URL Removal
-      4. Hashtag Extraction for Hashtag Analysis
-      5. Punctuation and Special Character Removal using Regular Expressions
-      6. Time Conversion
+- Stopword Removal 
+- Hashtag Removal
+- URL Removal
+- Hashtag Extraction for Hashtag Analysis
+- Punctuation and Special Character Removal using Regular Expressions
+- Time Conversion
 
 Analysis Performed includes:
-      1. Sentiment Analysis
-      2. Sentiment and Stock Price Correlation
-      3. WordCloud Generation and Analysis for Extracting Important Proceedings, Happenings and Finding Focus Areas
-      4. Hashtag exploration to obtain trends and shift in ideology
+- Sentiment Analysis
+- Sentiment and Stock Price Correlation
+- WordCloud Generation and Analysis for Extracting Important Proceedings, Happenings and Finding Focus Areas
+- Hashtag exploration to obtain trends and shift in ideology
