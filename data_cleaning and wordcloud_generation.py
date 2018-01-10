@@ -3,7 +3,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud, STOPWORDS
 import string
-from PIL import Image
 import re #regular expression
 from nltk.corpus import stopwords
 def remove_punctuation(text):
@@ -27,6 +26,9 @@ def remove_hashtag(text):
     new_text = ""
     for words in text.split():
         if words.startswith('@'): #remove @ amd #
+            new_text += words[1:]
+            new_text += ' '
+        elif words.startswith('#'): #remove @ amd #
             new_text += words[1:]
             new_text += ' '
         else:
@@ -58,8 +60,6 @@ def generateWordcloud(cleanedTweets):
                                 and not word.startswith('@')
                                 and word != 'RT'
                                 ])
-    import numpy as np
-    sap_mask = np.array(Image.open("SAP.jpg"))
     stopwords = set(STOPWORDS)
     stopwords.add("SAP")
 
@@ -83,22 +83,22 @@ def generateWordcloud(cleanedTweets):
 
 
 if __name__ == '__main__':
-    colnames = ['favorites', 'created_at', 'retweets', 'text']
+    colnames = ['favorites','created_at', 'retweets', 'text']
 
-    df = pd.read_csv('sap1.csv', usecols=colnames)
+    #df = pd.read_csv('sap1.csv', usecols=colnames)
     #df.describe()
-
+    df = pd.read_csv('sap_mentions_4.csv', usecols=colnames)
     tweet = df
     cleaned_tweets = []
-    cleaned_tweets_2009 = []
-    cleaned_tweets_2010 = []
-    cleaned_tweets_2011 = []
-    cleaned_tweets_2012 = []
-    cleaned_tweets_2013 = []
-    cleaned_tweets_2014 = []
-    cleaned_tweets_2015 = []
-    cleaned_tweets_2016 = []
-    cleaned_tweets_2017 = []
+# cleaned_tweets_2009 = []
+    # cleaned_tweets_2010 = []
+    # cleaned_tweets_2011 = []
+    # cleaned_tweets_2012 = []
+    # cleaned_tweets_2013 = []
+    # cleaned_tweets_2014 = []
+    # cleaned_tweets_2015 = []
+    # cleaned_tweets_2016 = []
+    #cleaned_tweets_2017 = []
     for index, tw in tweet.iterrows():
         tweetText = tw['text']
         twNourl = removes_url(tweetText)
@@ -109,41 +109,58 @@ if __name__ == '__main__':
         tw['created_at'] = tweetTime
         year = tw['created_at'][:4]
         cleaned_tweets.append(tw)
-        if year == '2009':
-            cleaned_tweets_2009.append(tw)
-        elif year == '2010':
-            cleaned_tweets_2010.append(tw)
-        elif year == '2011':
-            cleaned_tweets_2011.append(tw)
-        elif year == '2012':
-            cleaned_tweets_2012.append(tw)
-        elif year == '2013':
-            cleaned_tweets_2013.append(tw)
-        elif year == '2014':
-            cleaned_tweets_2014.append(tw)
-        elif year == '2015':
-            cleaned_tweets_2015.append(tw)
-        elif year == '2016':
-            cleaned_tweets_2016.append(tw)
-        elif year == '2017':
-            cleaned_tweets_2017.append(tw)
+        # if year == '2009':
+        #     cleaned_tweets_2009.append(tw)
+        # elif year == '2010':
+        #     cleaned_tweets_2010.append(tw)
+        # elif year == '2011':
+        #     cleaned_tweets_2011.append(tw)
+        # elif year == '2012':
+        #     cleaned_tweets_2012.append(tw)
+        # elif year == '2013':
+        #     cleaned_tweets_2013.append(tw)
+        # elif year == '2014':
+        #     cleaned_tweets_2014.append(tw)
+        # elif year == '2015':
+        #     cleaned_tweets_2015.append(tw)
+        # elif year == '2016':
+        #     cleaned_tweets_2016.append(tw)
+        # elif year == '2017':
+            #cleaned_tweets_2017.append(tw)
     cleaned_tweets = pd.DataFrame(cleaned_tweets)
-    cleaned_tweets_2009 = pd.DataFrame(cleaned_tweets_2009)
-    cleaned_tweets_2010 = pd.DataFrame(cleaned_tweets_2010)
-    cleaned_tweets_2011 = pd.DataFrame(cleaned_tweets_2011)
-    cleaned_tweets_2012 = pd.DataFrame(cleaned_tweets_2012)
-    cleaned_tweets_2013 = pd.DataFrame(cleaned_tweets_2013)
-    cleaned_tweets_2014 = pd.DataFrame(cleaned_tweets_2014)
-    cleaned_tweets_2015 = pd.DataFrame(cleaned_tweets_2015)
-    cleaned_tweets_2016 = pd.DataFrame(cleaned_tweets_2016)
-    cleaned_tweets_2017 = pd.DataFrame(cleaned_tweets_2017)
-    generateWordcloud(cleaned_tweets)
-    generateWordcloud(cleaned_tweets_2009)
-    generateWordcloud(cleaned_tweets_2010)
-    generateWordcloud(cleaned_tweets_2011)
-    generateWordcloud(cleaned_tweets_2012)
-    generateWordcloud(cleaned_tweets_2013)
-    generateWordcloud(cleaned_tweets_2014)
-    generateWordcloud(cleaned_tweets_2015)
-    generateWordcloud(cleaned_tweets_2016)
-    generateWordcloud(cleaned_tweets_2017)
+    # cleaned_tweets_2009 = pd.DataFrame(cleaned_tweets_2009)
+    # cleaned_tweets_2010 = pd.DataFrame(cleaned_tweets_2010)
+    # cleaned_tweets_2011 = pd.DataFrame(cleaned_tweets_2011)
+    # cleaned_tweets_2012 = pd.DataFrame(cleaned_tweets_2012)
+    # cleaned_tweets_2013 = pd.DataFrame(cleaned_tweets_2013)
+    # cleaned_tweets_2014 = pd.DataFrame(cleaned_tweets_2014)
+    # cleaned_tweets_2015 = pd.DataFrame(cleaned_tweets_2015)
+    # cleaned_tweets_2016 = pd.DataFrame(cleaned_tweets_2016)
+    # cleaned_tweets_2017 = pd.DataFrame(cleaned_tweets_2017)
+    cleaned_tweets = []
+    for tw in tweet.iterrows():
+        tweetText = tw['text']
+        tweetText = remove_hash_symbol(tweetText)
+        tw['text'] = tweetText
+        cleaned_tweets.append(tw)
+    # cleaned_tweets_2009.to_csv("cleaned_tweets_2009.csv", sep='\t')
+    # cleaned_tweets_2010.to_csv("cleaned_tweets_2010.csv", sep='\t')
+    # cleaned_tweets_2010.to_csv("cleaned_tweets_2010.csv")
+    # cleaned_tweets_2011.to_csv("cleaned_tweets_2011.csv")
+    # cleaned_tweets_2012.to_csv("cleaned_tweets_2012.csv")
+    # cleaned_tweets_2013.to_csv("cleaned_tweets_2013.csv")
+    # cleaned_tweets_2014.to_csv("cleaned_tweets_2014.csv")
+    # cleaned_tweets_2015.to_csv("cleaned_tweets_2015.csv")
+    # cleaned_tweets_2016.to_csv("cleaned_tweets_2016.csv")
+    # cleaned_tweets_2017.to_csv("cleaned_tweets_2017.csv")
+    #
+    # generateWordcloud(cleaned_tweets)
+    # generateWordcloud(cleaned_tweets_2009)
+    # generateWordcloud(cleaned_tweets_2010)
+    # generateWordcloud(cleaned_tweets_2011)
+    # generateWordcloud(cleaned_tweets_2012)
+    # generateWordcloud(cleaned_tweets_2013)
+    # generateWordcloud(cleaned_tweets_2014)
+    # generateWordcloud(cleaned_tweets_2015)
+    # generateWordcloud(cleaned_tweets_2016)
+    # generateWordcloud(cleaned_tweets_2017)
