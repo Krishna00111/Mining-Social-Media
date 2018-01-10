@@ -3,9 +3,9 @@
 The project aims to mine Social Media data and highlight the Evolving Journey of An Organization
 
 Tweets were obtained from the following sources:
-      1. SAP's official handle
-      2. Handles which mentioned "#sap"
-      3. Specific business news agency handles such as Bloomberg and Forbes
+- SAP's official handle
+- Handles which mentioned "#sap"
+- Specific business news agency handles such as Bloomberg and Forbes
 
 The data is pre-process using the following methodologies:
       1. Stopword Removal 
